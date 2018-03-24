@@ -51,26 +51,6 @@ accZ5e1iOtNIBTVUEaQ0YxNwhZqnQO4rgBFCnEpNH6TB62hXUD6u/oP/WB48Wmek
 KPgaoWHMo5sOFQnw5A==
 -----END CERTIFICATE-----`
 
-func TestMain(m *testing.M) {
-	build := exec.Command("go", "build")
-	berr := build.Run()
-	if berr != nil {
-		fmt.Printf("could not build before tests: %v", berr)
-		os.Exit(1)
-	}
-
-	retcode := m.Run()
-
-	clean := exec.Command("go", "clean", "-x")
-	cerr := clean.Run()
-	if cerr != nil {
-		fmt.Printf("could not cleanup after tests: %v", cerr)
-		os.Exit(1)
-	}
-
-	os.Exit(retcode)
-}
-
 func TestTestData(t *testing.T) {
 	var icaCache = lru.New(200)
 
@@ -108,7 +88,7 @@ func TestCLITestData(t *testing.T) {
 
 			golden := path.Join(testdata, fname+".golden")
 			crt := path.Join(testdata, fname)
-			bin := path.Join(dir, "certlint")
+			bin := "certlint"
 
 			// raise errlevel to Alert because non-zero return causes the test to fail
 			cli_args := []string{"-expired", "-errlevel", "alert", "-cert", crt}
@@ -176,18 +156,13 @@ func TestCLIReturn(t *testing.T) {
 		},
 	}
 
-	dir, err := os.Getwd()
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			fmt.Printf("---- CLI %s ----\n", tt.name)
 
-			bin := path.Join(dir, "certlint")
+			bin := "certlint"
 			cmd := exec.Command(bin, tt.args...)
-			_, err = cmd.CombinedOutput()
+			_, err := cmd.CombinedOutput()
 			if err != nil {
 				actual := err.Error()
 				expected := tt.retv
