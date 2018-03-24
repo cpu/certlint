@@ -5,11 +5,18 @@ go:
   - 1.8
   - master
 
+cache:
+  directories:
+    - $GOPATH/src
+    - $GOPATH/pkg
+
 before_install:
   - go get -t -v ./...
 
-script:
+install:
   - go install ./...
+
+script:
   - go test -race -coverprofile=coverage.txt -covermode=atomic
 
 after_success:
