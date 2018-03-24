@@ -4,9 +4,9 @@ import (
 	// Import all default checks
 	_ "github.com/globalsign/certlint/checks/certificate/aiaissuers"
 	_ "github.com/globalsign/certlint/checks/certificate/basicconstraints"
+	_ "github.com/globalsign/certlint/checks/certificate/certinternal"
 	_ "github.com/globalsign/certlint/checks/certificate/extensions"
 	_ "github.com/globalsign/certlint/checks/certificate/extkeyusage"
-	_ "github.com/globalsign/certlint/checks/certificate/internal"
 	_ "github.com/globalsign/certlint/checks/certificate/issuerdn"
 	_ "github.com/globalsign/certlint/checks/certificate/keyusage"
 	_ "github.com/globalsign/certlint/checks/certificate/publickey"

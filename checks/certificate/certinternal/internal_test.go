@@ -1,4 +1,4 @@
-package internal
+package certinternal
 
 import (
 	"crypto/x509"
